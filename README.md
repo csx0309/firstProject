@@ -1,5 +1,5 @@
-# firstProject
-这是我的第一个项目 有点紧张
+使用sublime text3 对vue文件使用格式化的方法
+
 在安装完Package Control插件之后，用使用CTRL + SHIFT + P快捷键调出面板，输入package control或者install联想调出 
  
 选择Package Control:Install Package 
