@@ -1,0 +1,117 @@
+.right-con .titleBox{
+    height: 182px;
+    overflow: hidden;
+}
+.link{
+    display: block;
+}
+.link:hover{
+    text-decoration: none;
+}   
+.link h2{
+    color: orange;
+}
+.link .tbcon{
+    font-size: 14px;
+    height: 90px;  
+    color: #8F8F8F;
+    width: 100%;  
+    word-break: break-all;
+
+    text-overflow: ellipsis;
+
+    display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+
+    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+
+    -webkit-line-clamp: 3; /** 显示的行数 **/
+
+    overflow: hidden;  /** 隐藏超出的内容 **/
+    line-height: 31px;
+}
+.link .tbcon:hover{
+    color: #8B7355;
+}
+.right-con{
+    padding: 30px 0 0 0;
+}
+.right-con .row{
+    margin: 30px 0 20px;
+}
+#sidebar{
+    position: fixed;
+}
+.showTitle{
+    font-size: 20px;
+    font-weight: bold;
+    color: #8B7765;
+}
+.titleP{
+    text-align: center;
+    
+}
+.titleBox{
+    margin-top: 60px;
+    max-height: 160px;
+    overflow-y: hidden;
+}
+/* 设置左侧类型数量的样式 */
+#typeNum{
+    margin-top: 50px;
+}
+/* 每日一语 */
+.meiri{
+    position: relative;
+}
+.meiri img{
+    width: 100%;
+    height: 100%;
+    margin-top: 40px;
+    opacity:0.5;
+    border-radius: 5px;
+}
+.meiri .meiri-con{
+    position: absolute;
+    width: 100%;
+    height: 64%;
+    top: 50%;
+    left: 50%;
+    margin-left: -50%;
+    margin-top: -10%;
+    padding: 0 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: 	#7A378B ;
+}
+nav .nav-logo{
+    font-size: 16px;
+}
+.list-group-item{
+    cursor: pointer;
+}
+/* 搜索 */
+#search {
+    margin-top: 70px;
+    display: flex;
+}
+#search input{
+    height: 34px;
+    width: 78%;
+    text-indent: 10px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px;    
+    flex-grow: 1;
+}
+#search button{
+    flex-grow: 1;
+}
+/* 删除*/
+#zhuxiao{
+    cursor: pointer;
+}
+/* 查看详情 */
+.xiangqing{
+    padding: 4px 10px;
+    margin: 10px auto 0;
+}

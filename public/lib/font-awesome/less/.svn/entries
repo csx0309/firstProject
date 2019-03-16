@@ -1,0 +1,126 @@
+10
+
+dir
+0
+http://169.254.123.172:81/svn/p2p/Team1/trunk/Code/lib/font-awesome/less
+http://169.254.123.172:81/svn/p2p
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+
+
+
+
+
+
+
+
+
+
+
+cc2b7638-5017-b24c-a014-9a95945b4079
+
+icons.less
+file
+
+
+
+add
+
+list.less
+file
+
+
+
+add
+
+fixed-width.less
+file
+
+
+
+add
+
+larger.less
+file
+
+
+
+add
+
+path.less
+file
+
+
+
+add
+
+stacked.less
+file
+
+
+
+add
+
+screen-reader.less
+file
+
+
+
+add
+
+animated.less
+file
+
+
+
+add
+
+rotated-flipped.less
+file
+
+
+
+add
+
+font-awesome.less
+file
+
+
+
+add
+
+mixins.less
+file
+
+
+
+add
+
+core.less
+file
+
+
+
+add
+
+variables.less
+file
+
+
+
+add
+
+bordered-pulled.less
+file
+
+
+
+add
+

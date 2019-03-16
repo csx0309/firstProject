@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人博客</title>
+    <!-- 填入bootstrap样式 -->
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css">
+    <!-- 自己的样式 -->
+    <link rel="stylesheet" href="../dist/css/core.min.css">
+    <style type="text/css">
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table td {
+            border: solid 1px #eee;
+            padding-right: 5px;
+            height: 30px;
+            font-family: "微软雅黑";
+        }
+
+        table td.leftlable {
+            width: 100px;
+            text-align: right;
+        }
+
+        table td input {
+            width: 200px;
+            border: solid 1px #eee;
+            margin-left: 5px;
+            height: 20px;
+        }
+
+        table td textarea {
+            width: 500px;
+            height: 200px;
+            border: solid 1px #eee;
+            margin: 5px;
+        }
+        #zhuxiao{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+       
+    <div data-title='tianjiatl' class="container">
+        <div class="row">
+            <div class="col-sm-3" id="sidebar">
+                <div id="logo">
+                    <h1 class="mobileUI-site-name">CSX</h1>
+                </div>
+                <script src="leftmenu.html"></script>
+            </div>
+            <div class="col-sm-9 right-con">
+                <div class="content-right">
+                    <div class="content-right-cl">
+                        <!--编辑器位置-->
+                        <div>添加内容</div>
+                        <table cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="leftlable">标题</td>
+                                <td>
+                                    <input type="text" name="tbtitle" id="tbtitle" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="leftlable">作者</td>
+                                <td>
+                                    <input type="text" name="tbauthor" id="tbauthor" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="leftlable">类型</td>
+                                <td>
+                                    <select name="tbtype" id="tbtype">
+                                        <option value="HTML" selected>HTML</option>
+                                        <option value="CSS">CSS</option>
+                                        <option value="JavaScript">JavaScript</option>
+                                        <option value="Java">Java</option>
+                                        <option value="课外知识">课外知识</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="leftlable">来源</td>
+                                <td>
+                                    <input type="text" name="tbsource" id="tbsource" />
+                                </td>
+                            </tr>
+                            <!-- <tr><td class="leftlable">内容</td><td><textarea name="tbcontent" id="tbcontent" rows="5" cols="20"></textarea></td></tr> -->
+                        </table>
+                        <div style="max-width:700px;margin:50px">
+                                <div id="txtdiv" style="border:1px solid gray;min-height:240px">
+    
+                                </div>
+                        </div>
+                        <div>
+                                <button type="submit" class="btn btn-primary" id="btnsave" value="发布">发布</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 引入jq -->
+        <!-- <script src="lib/jquery/dist/jquery.min.js"></script> -->
+
+        <!--wangEditor是一款基于jquery框架开发的插件-->
+        <script src="../js/jquery-1.11.3.min.js"></script>
+
+        <script src="../lib/template-web.js"></script>
+        <!--脚本控制-->
+        <script>
+            $(function () {
+                //注销
+                $('#zhuxiao').click(function(){
+                    alert('222');
+                    $.get('/bokecon/clearcookie',function(data){
+                        location.href='index.html';
+                    })
+                })
+                //验证cookie
+                $.get("/bokecon/readcookie",function(data){
+                    console.log(data);
+                    if(!data){
+                        location.href = "./index.html"
+                    }
+                })
+                var tl = $('.container').data('title');
+                if(tl=='tianjiatl'){
+                    var aa=$('.tianjiatl').css({'background':'#ABABAB','border-radius':'5px'})
+                    console.log(aa);
+                }
+                //初始化编辑器
+                editor = new wangEditor("txtdiv");
+                editor.create();
+
+                //内容修改事件，此处做的是实时展示实际效果
+                editor.onchange = function () {
+                    //获取editor的html值
+                    tbcontent = editor.$txt.html();
+                    console.log(typeof tbcontent);
+                    //$("#show_box").html(html)
+                }
+                $("#btnsave").click(function () {
+                    var tbtitle = $("#tbtitle").val();
+                    console.log(tbtitle);
+                    var tbauthor = $("#tbauthor").val();
+                    var tbsource = $("#tbsource").val();
+                    var tbtype = $("#tbtype").val();
+                    // 获取富文本中的内容
+
+                    var obj = {
+                        tbtitle: tbtitle,
+                        tbauthor: tbauthor,
+                        tbsource: tbsource,
+                        tbcontent: tbcontent,
+                        tbtype:tbtype
+                    }
+                    console.log(obj);
+                    $.post("/bokecon/bokeadd",obj, function (data) {
+                        if(data){
+                            console.log("数据添加成功...");
+                            // 添加数据发送请求返回结果之后清空编辑器中的内容
+                            $("#tbtitle").val('');
+                            $("#tbauthor").val('');
+                            $("#tbsource").val('');
+                            editor.$txt.html('');
+                          
+                        }
+                    });
+                   
+                })
+            })
+        </script>
+        <script>
+        </script>
+
+        <!--按照官网上的说明，js和css的这两个引用应该放在body的末尾-->
+        <script src="../js/wangEditor.js"></script>
+        <link href="../dist/css/wangEditor.css" rel="stylesheet">
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+
+1.图片懒加载的使用
+	
+	1.安装插件
+
+	npm install vue-lazyload --save-dev
+
+	2.在入口文件main.js中引入并使用
+
+	import VueLazyLoad from 'vue-lazyload'
+
+	//懒加载的默认图片 
+	import def_lazy_img from './assets/images/loading.gif'
+
+	//使用懒加载组件
+	Vue.use(VueLazyLoad,{
+		loading: def_lazy_img
+	})
+	或者
+	Vue.use(VueLazyload, {
+	  preLoad: 1.3,
+	  error: 'dist/error.png',//当加载图片失败的时候
+	  loading: 'dist/loading.gif',//当加载图片成功的时候
+	  attempt: 1
+	})
+
+	3.修改图片显示方式为懒加载（将 :src 属性直接改为v-lazy）
+
+	<a href="javascript:;"><img v-lazy="'/static/img/' + item.productImage"></a>
+	或者
+	<img v-lazy="product.src" height="300" width="300">
+
+2.使用vue-infinite-scroll在vue中实现下拉加载数据，瀑布流，详细操作
+
+	需求：
+
+	当用户打开首页的时候显示8条数据，当用户滚动到屏幕可视区边缘的时候，然后触发一个函数，请求一个api加载新的数据，并且填充到之前的数据下面。
+
+	1.npm i vue-infinite-scroll -D
+
+	2.使用 ES2015的方式
+		// 注册全局
+		import infiniteScroll from 'vue-infinite-scroll'
+		Vue.use(infiniteScroll)
+		 
+		//单独的组件里面使用
+		import infiniteScroll from 'vue-infinite-scroll'
+		new Vue({
+		  directives: {infiniteScroll}
+		})
+
+	3.当元素底部到达viewport底部时，将触发v-infinite-scroll值的方法。(配置的三个属性)
+
+		<div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+		  ...
+		</div>
+
+	var count = 0;
+
+	new Vue({
+	  el: '#app',
+	  data: {
+	    data: [],
+	    busy: false
+	  },
+	  methods: {
+	    loadMore: function() {
+	      this.busy = true;
+
+	      setTimeout(() => {
+	        for (var i = 0, j = 10; i < j; i++) {
+	          this.data.push({ name: count++ });
+	        }
+	        this.busy = false;
+	      }, 1000);
+	    }
+	  }
+	});

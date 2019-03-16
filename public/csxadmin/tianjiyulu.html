@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加语录</title>
+    <!-- 填入bootstrap样式 -->
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css">
+    <!-- 自己的样式 -->
+    <link rel="stylesheet" href="../dist/css/core.min.css">
+    <style type="text/css">
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table td {
+            border: solid 1px #eee;
+            padding-right: 5px;
+            height: 30px;
+            font-family: "微软雅黑";
+        }
+
+        table td.leftlable {
+            width: 100px;
+            text-align: right;
+        }
+
+        table td input {
+            width: 200px;
+            border: solid 1px #eee;
+            margin-left: 5px;
+            height: 20px;
+        }
+
+        table td textarea {
+            width: 500px;
+            height: 200px;
+            border: solid 1px #eee;
+            margin: 5px;
+        }
+
+        #btnsave {
+            width: 80px;
+            background-color: darkorange;
+            color: white;
+            border: solid 1px #FF8C00;
+            height: 20px;
+        }
+        #zhuxiao{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+       
+    <div data-title='liaomei' class="container">
+        <div class="row">
+            <div class="col-sm-3" id="sidebar">
+                <div id="logo">
+                    <h1 class="mobileUI-site-name">CSX</h1>
+                </div>
+                <script src="leftmenu.html"></script>
+            </div>
+            <div class="col-sm-9 right-con">
+                <div class="content-right">
+                    <div class="content-right-cl">
+                        <!--编辑器位置-->
+                        <p>添加语录</p>
+                      
+                        <div style="max-width:700px;margin:50px">
+                                <div id="txtdiv" style="border:1px solid gray;min-height:240px">
+    
+                                </div>
+                        </div>
+                        <div>
+                                <input style="width:10%;margin:0 auto;" type="submit" class="btn btn-primary" id="btnliaomei" value="发布" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 引入jq -->
+        <!-- <script src="lib/jquery/dist/jquery.min.js"></script> -->
+
+        <!--wangEditor是一款基于jquery框架开发的插件-->
+        <script src="http://cdn.bootcss.com/wangeditor/2.1.20/js/lib/jquery-2.2.1.js"></script>
+        <!--脚本控制-->
+        <script>
+            $(function () {
+                //注销
+                $('#zhuxiao').click(function(){
+                    alert('222');
+                    $.get('/bokecon/clearcookie',function(data){
+                        location.href='index.html';
+                    })
+                })
+                //验证cookie
+                $.get("/bokecon/readcookie",function(data){
+                    if(!data){
+                        location.href = "./index.html"
+                    }
+                })
+                var tl = $('.container').data('title');
+                if(tl=='liaomei'){
+                    var aa=$('.liaomeia').css({'background':'#ABABAB','border-radius':'5px'})
+                    console.log(aa);
+                }
+               
+                //初始化编辑器
+                editor = new wangEditor("txtdiv");
+                editor.create();
+
+                //内容修改事件，此处做的是实时展示实际效果
+                editor.onchange = function () {
+                    //获取editor的html值
+                    liaocontent = editor.$txt.html();
+                    //$("#show_box").html(html)
+                }
+                $("#btnliaomei").click(function () {
+                    // 获取富文本中的内容
+                    var obj = {
+                        liaocontent:liaocontent
+                    }
+                    console.log(obj);
+                    $.get("/bokecon/liaomeiadd",obj, function (data) {
+                        if(data){
+                            console.log("数据添加成功...");
+                            // 添加数据发送请求返回结果之后清空编辑器中的内容
+                            editor.$txt.html('');
+                           // location.href='../index.html';
+                        }
+                    });
+                   
+                })
+            })
+        </script>
+        <script>
+        </script>
+
+        <!--按照官网上的说明，js和css的这两个引用应该放在body的末尾-->
+        <script src="http://cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.js"></script>
+        <link href="http://cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.css" rel="stylesheet">
+</body>
+
+</html>

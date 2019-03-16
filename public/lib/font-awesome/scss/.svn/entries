@@ -1,0 +1,126 @@
+10
+
+dir
+0
+http://169.254.123.172:81/svn/p2p/Team1/trunk/Code/lib/font-awesome/scss
+http://169.254.123.172:81/svn/p2p
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+
+
+
+
+
+
+
+
+
+
+
+cc2b7638-5017-b24c-a014-9a95945b4079
+
+_mixins.scss
+file
+
+
+
+add
+
+_core.scss
+file
+
+
+
+add
+
+_variables.scss
+file
+
+
+
+add
+
+_bordered-pulled.scss
+file
+
+
+
+add
+
+_icons.scss
+file
+
+
+
+add
+
+_list.scss
+file
+
+
+
+add
+
+_fixed-width.scss
+file
+
+
+
+add
+
+_larger.scss
+file
+
+
+
+add
+
+_path.scss
+file
+
+
+
+add
+
+_stacked.scss
+file
+
+
+
+add
+
+_screen-reader.scss
+file
+
+
+
+add
+
+_animated.scss
+file
+
+
+
+add
+
+_rotated-flipped.scss
+file
+
+
+
+add
+
+font-awesome.scss
+file
+
+
+
+add
+

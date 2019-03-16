@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人博客</title>
+    <!-- 填入bootstrap样式 -->
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
+    <!-- 自己的样式 -->
+    <link rel="stylesheet" href="dist/css/core.min.css">
+    <link rel="stylesheet" href="dist/css/zhuti.css">
+    <!-- 导航 -->
+    <link rel="stylesheet" href="dist/css/zd-1.0.css">
+    <!-- 顶部 -->
+    <link rel="stylesheet" href="dist/css/dingbu.css">
+    <script src="./dist/js/jquery-1.10.2.js"></script>
+    <!-- 引入分页插件js -->
+    <script src="./dist/js/jquery.twbsPagination.js"></script>
+    <style>
+        .showTitle {
+            text-align: center;
+        }
+        .tmargin {
+            margin-left: 20px;
+        }
+        
+        .boxxiang {
+            display: block;
+            text-align: center;
+        }
+        .list-group-item:hover{
+            background: #666666;
+            color: #fff;
+        }
+       .tbcon{
+        color: #8F8F8F;
+       }
+    </style>
+</head>
+
+<body>
+    <div class="side">
+        <ul>
+            <li>
+                <a href="javascript:void(0);">
+                    <div class="sidebox">
+                        <img src="dist/images//side_icon04.png">977577136</div>
+                </a>
+            </li>
+            <li style="border:none;">
+                <a href="javascript:goTop();" class="sidetop">
+                    <img src="dist/images//side_icon05.png">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <script src="nav.html"></script>
+    <div class="container">
+        <div class="row">
+            <div class="search-main col-sm-9">
+                <div class="search-right-con">
+                </div>
+                <!-- 分页部分 -->
+                <ul class="pagination" id="pagination">
+                    <!-- 分页页码进来的位置 -->
+                </ul>
+                <div>
+                    <button class="btn btn-primary page" data-page="firstPage">首页</button>
+                    <button class="btn btn-primary page" data-page="lastPage">上一页</button>
+                    <button class="btn btn-primary page" data-page="nextPage">下一页</button>
+                    <button class="btn btn-primary page" data-page="endPage">尾页</button>
+                    <input type="text" class="noePage" value="1">
+                    共<span class="totalPage"></span>页
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="meiri">
+                    <img src="./dist/images/meiriyiyu.jpg" alt="">
+                    <div class="meiri-con">
+                        “下雪了你为什么不带帽子？”
+                        “因为啊，想和你一路白头啊～”
+                    </div>
+                </div>
+                <div id="search">
+                    <input id="searchcon" type="text" placeholder="请输入搜索的内容"><button id="btnsearch" class="btn btn-primary">搜索</button>
+                </div>
+                <ul class="list-group" id="typeNum">
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        Cras justo odio
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        Cras justo odio
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        Cras justo odio
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        Cras justo odio
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- 引入jq -->
+    <!-- <script src="lib/jquery/dist/jquery.min.js"></script> -->
+    <!--wangEditor是一款基于jquery框架开发的插件-->
+    <script src="dist/js/leftmenu.min.js"></script>
+    <script src="lib/template-web.js"></script>
+    <script type="text/html" id="tmpl">
+        {{each dd v i}}
+        <div class='titleBox'>
+            <p class='titleP'>
+                <a class='link showTitle' href="indexcon.html?id={{v._id}}">
+
+                    {{v.tbtitle}}
+                </a>
+            </p>
+            <a class='link' href="indexcon.html?id={{v._id}}">
+                <div class='tbcon'>
+                    {{@v.tbcontent}}
+                </div>
+            </a>
+            <a class='boxxiang' href="indexcon.html?id={{v._id}}">
+                <button class='btn xiangqing'>查看详情</button>
+            </a>
+        </div>
+       
+        {{/each}}
+    </script>
+    <script type="text/html" id="typeNumtmpl">
+        {{each typenum v i}}
+        <a href='typecon.html?ty={{v.tp}}'>
+                <li class="list-group-item" data-ty='{{v.tp}}'>
+                <span class="badge">{{v.ttnum}}</span>
+                {{v.name}}
+                </li>
+            </a>
+        {{/each}}
+    </script>
+    <script>
+    
+
+    var pageSize = 4;
+    var currentPage = 1;
+    var maxPage;
+    //显示种类的数量在左侧
+    var name = location.href.split('=')[1];
+    var searchHtml = function(currentPage) {
+        $.get('/bokecon/search.html?name=' + name + '&currentPage=' + currentPage + '&pageSize=' + pageSize, function(data) {
+            if (data == '') {
+                $('.search-main').html("<h3 style='margin:200px 0 0;text-align:center'>未找到搜索内容</h>");
+            } else {
+                var arr = data.logList;
+                var rst = template('tmpl', { dd: arr });
+
+                // 把渲染的结果追加到页面的指定的位置
+                $('.search-right-con').html(rst);
+                maxPage = data.totalPages;
+                $(".totalPage").text(maxPage);
+            }
+            //重新渲染页面的内容
+
+        })
+    }
+    searchHtml(currentPage);
+    $(".page").click(function() {
+         var val = $(".noePage").val();
+         var pageNum = $(this).attr("data-page");
+         switch (pageNum) {
+             case "firstPage":
+                 if (val != 1) {
+                     searchHtml(1)
+                     $(".noePage").val("1")
+                 };
+                 break;
+             case "lastPage":
+                 if (val == 1) {
+                     val == 1
+                     $(".noePage").val("1");
+                 } else {
+                     val -= 1;
+                     $(".noePage").val(val);
+                     searchHtml(val)
+                 }
+
+                 break;
+             case "nextPage":
+                 if (val >= maxPage) {
+
+                 } else {
+                     val = parseInt(val) + 1;
+                     searchHtml(val)
+                     $(".noePage").val(val);
+                 }
+
+                 break;
+             case "endPage":
+                 searchHtml(maxPage)
+                 $(".noePage").val(maxPage);
+                 break;
+         }
+     })
+    //请求搜索的路由
+    $('#btnsearch').click(function() {
+        var seacon = $('#searchcon').val();
+        location.href = 'searchcon.html?name=' + seacon;
+    })
+    $('#searchcon').on('keypress', function(event) {
+        if (event.keyCode == '13') {
+            var seacon = $(this).val();
+            location.href = 'searchcon.html?name=' + seacon;
+        }
+    })
+    // 请求添加内容的类型的数量返回的是一个数组
+    $.get("/bokecon/typenum", function(data) {
+        var html = template("typeNumtmpl", {
+            typenum: data
+        })
+        $("#typeNum").html(html);
+    })
+    $(document).click(function() {
+        $('.nav-list').removeClass('open')
+    })
+    $('.nav-menu,.nav-list').click(function(e) {
+        e.stopPropagation()
+    })
+    $('nav').find('.nav-menu').click(function(e) {
+        $('.nav-list').toggleClass('open')
+    })
+    // 返回顶部
+
+    $(document).ready(function() {
+        $(".side ul li").hover(function() {
+            $(this).find(".sidebox").stop().animate({
+                "width": "150px"
+            }, 200).css({
+                "opacity": "1",
+                "filter": "Alpha(opacity=100)",
+                "background": "#ae1c1c"
+            })
+        }, function() {
+
+            $(this).find(".sidebox").stop().animate({
+                "width": "54px"
+            }, 600).css({
+                "opacity": "0.8",
+                "filter": "Alpha(opacity=80)",
+                "background": "#000"
+            })
+        });
+    });
+    //回到顶部
+    function goTop() {
+        $('html,body').animate({
+            'scrollTop': 0
+        }, 600);
+    }
+    //获取每日一语的数据
+    $.get('/bokecon/meiri', function(data) {
+        function getshu(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        var num = getshu(0, data.length - 1);
+        $('.meiri-con').html(data[num].liaocontent);
+    })
+    //点击右侧菜单刷新数据
+
+    $('#typeNum').click(function(e) {
+        var ty = e.target.getAttribute('data-ty');
+        $.post('/bokecon/menulist', { ty: ty }, function(da) {
+            fenye(da, 1)
+            var html = template("tmpl", {
+                dd: data
+            })
+            $(".right-con").html(html);
+        })
+    })
+    </script>
+</body>
+
+</html>

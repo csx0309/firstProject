@@ -1,0 +1,109 @@
+tu4h7lw5
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		
+		<!--
+			1、鼠标按下的时候（mousedown）
+				1.1 获取图片的原始位置，鼠标的原始位置
+			2、鼠标移动的时候(mousemove)
+				2.1 移动的时候获取鼠标的值
+			3、鼠标松开的时候(mouseup)
+				3.1 设置移动状态为false
+				3.2 获取鼠标的结束位置
+				3.2 算出移动距离，并且设置最终的位置
+				
+			//拖拽效果的本质：改变left和top值
+		-->
+		<style>
+			.kefu{
+				width: 114px;
+				height: 197px;
+				background: url(img/plugin_bg1.png) no-repeat;
+				position: relative;
+				top:200px;
+				left: 0px;
+			}
+			.kefu img{
+				margin-top:25px;
+				margin-left: 11px;
+			}
+		</style>
+		<script src="js/jquery-1.11.0.js"></script>
+		<script>
+			$(function () {
+				var x1,y1;//客服的原始位置
+				var mx1,my1;//鼠标的原始位置
+				var mx2,my2;//鼠标的结束位置
+				var dx,dy;//移动的距离
+				var ismove;//是否在拖动
+				//1. 睁眼闭眼效果
+				$(".kefu").hover(function () {
+					$(".kefu img").prop("src","img/q_1.png")
+				},function(){
+					$(".kefu img").prop("src","img/q_2.png")
+				})
+				
+				//2.按下鼠标的时候
+				$(".kefu").mousedown(function(e) {
+					//2.1 获取客服的原始位置
+					x1 = parseInt($(this).css("left"));
+					y1 = parseInt($(this).css("top"));
+//					console.log(x1,y1)
+					//2.2 获取鼠标的原始位置
+					mx1 = e.pageX;
+					my1 = e.pageY;
+					$(this).fadeTo(10,0.5);
+//					console.log(mx1,my1)
+					ismove = true;
+					//return false;
+					e.preventDefault();
+				})
+				//3.移动鼠标的时候
+				$(window).mousemove(function (e) {
+					if(ismove){
+						//3.1 获取鼠标移动结束的位置
+						mx2 = e.pageX;
+						my2 = e.pageY;
+						//3.2 计算出鼠标移动的距离
+						dx = mx2-mx1;
+						dy = my2-my1;
+//						console.log(dx,dy)
+						//3.3 赋值给kefu
+						$(".kefu").css({"left":(x1+dx)+"px","top":(y1+dy)+"px"})
+					}
+				})
+				$(".kefu").mouseup(function () {
+					$(this).fadeTo(10,1);
+					ismove = false;
+					e.preventDefault();
+				});
+				
+				//完善客服拖拽，一直跟着滚动条走
+				$(window).scroll(function () {
+					//1 获取滚动条的距离
+					var top = $("html").scrollTop();//谷歌、火狐
+					var top1= $("body").scrollTop();//兼容IE
+					
+					var m = Math.max(top,top1); //处理兼容性
+//					console.log(m);
+					//2 设置客服位置
+					$(".kefu").animate({"top":m+200},100);
+				})
+				
+				
+				
+			})
+			
+		</script>
+	</head>
+	<body style="height: 2000px;">
+		<div class="kefu">
+			<img src="img/q_2.png" />
+		</div>
+		
+	</body>
+</html>

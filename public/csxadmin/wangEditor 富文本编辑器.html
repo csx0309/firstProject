@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <!--在这里字符集的设定很重要，如果设定不当将会出现乱码-->
+        <meta charset="UTF-8">
+        <title>wangEditor demo</title>
+    </head>
+    <body>
+        <!--wangEditor是一款基于jquery框架开发的插件-->
+        <script src="http://cdn.bootcss.com/wangeditor/2.1.20/js/lib/jquery-2.2.1.js"></script>
+    
+        <!--编辑器位置-->
+        <div style="max-width:700px;margin:50px">
+            <div id="txtdiv" style="border:1px solid gray;min-height:240px">
+            
+            </div>
+        </div>
+        
+        <!--效果展示框-->
+        <div id="show_box" style="border: 1px solid gray;margin-left:50px"></div>
+        
+        <!--脚本控制-->
+        <script>
+            $(function(){
+                //初始化编辑器
+                editor = new wangEditor("txtdiv");
+                editor.create();
+                
+                //内容修改事件，此处做的是实时展示实际效果
+                editor.onchange = function(){
+                    //获取editor的html值
+                    var html = editor.$txt.html();
+                    $("#show_box").html(html)
+                }
+            })
+        </script>
+    
+        <!--按照官网上的说明，js和css的这两个引用应该放在body的末尾-->
+        <script src="http://cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.js"></script>
+        <link href="http://cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.css" rel="stylesheet">
+    </body>
+</html>

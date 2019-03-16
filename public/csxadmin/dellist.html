@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人博客</title>
+    <!-- 填入bootstrap样式 -->
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css">
+    <!-- 自己的样式 -->
+    <link rel="stylesheet" href="../dist/css/core.min.css">
+    <style type="text/css">
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table td {
+            border: solid 1px #eee;
+            padding-right: 5px;
+            height: 30px;
+            font-family: "微软雅黑";
+        }
+
+        table td.leftlable {
+            width: 100px;
+            text-align: right;
+        }
+
+        table td input {
+            width: 200px;
+            border: solid 1px #eee;
+            margin-left: 5px;
+            height: 20px;
+        }
+
+        table td textarea {
+            width: 500px;
+            height: 200px;
+            border: solid 1px #eee;
+            margin: 5px;
+        }
+
+        #btnsave {
+            width: 80px;
+            background-color: darkorange;
+            color: white;
+            border: solid 1px #FF8C00;
+            height: 20px;
+        }
+
+        .list-con {
+            list-style: none;
+        }
+
+        .list-con .deltl {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .list-con .deltl .deltlf,
+        .list-con .deltl .deltlf {
+            flex-grow: 1;
+        }
+        #zhuxiao{
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div data-title='deltl' class="container">
+        <div class="row">
+            <div class="col-sm-3" id="sidebar">
+                <div id="logo">
+                    <h1 class="mobileUI-site-name">CSX</h1>
+                </div>
+                <script src="leftmenu.html"></script>
+            </div>
+            <div class="col-sm-9">
+                <h4>删除列表</h4>
+                <ul class="list-con">
+                    <li>思数据</li>
+                </ul>
+            </div>
+        </div>
+        <!-- 引入jq -->
+        <script src="../lib/jquery/dist/jquery.min.js"></script>
+
+        <!--wangEditor是一款基于jquery框架开发的插件-->
+        <!-- <script src="http://cdn.bootcss.com/wangeditor/2.1.20/js/lib/jquery-2.2.1.js"></script> -->
+
+        <script src="../lib/template-web.js"></script>
+        <!--脚本控制-->
+        <script type="text/html" id="deltmpl">
+            {{each dd v i}}
+            <li class='deltl'>
+                <span class='deltlf'>{{v.tbtitle}}</span>
+                <button data-id='{{v._id}}' data-type='xiugai' class='deltlr xiugaiCon btn btn-primary'>修改</button>
+                <button data-id='{{v._id}}' data-type='del' class='deltlr btn btn-danger'>删除</button>   
+            </li>
+            {{/each}}
+        </script>
+        <script>
+            $(function () {
+                //注销
+                $('#zhuxiao').click(function(){
+                    alert('222');
+                    $.get('/bokecon/clearcookie',function(data){
+                        location.href='index.html';
+                    })
+                })
+                //验证cookie
+                $.get("/bokecon/readcookie",function(data){
+                    if(!data){
+                        location.href = "./index.html"
+                    }
+                })
+                $.get("/bokecon/bokeshow", function (data) {
+                    console.log(data);
+                    var html = template("deltmpl", {
+                        dd: data
+                    })
+                    $(".list-con").html(html);
+                })
+            })
+        </script>
+        <script>
+            $(function () {
+                var tl = $('.container').data('title');
+                if(tl=='delcon'){
+                    var aa=$('.delcon').css({'background':'#ABABAB','border-radius':'5px'})
+                    console.log(aa);
+                }
+                        //改变左侧导航栏的样式
+                        var tl = $('.container').data('title');
+                        if (tl == 'deltl') {
+                            var aa = $('.delcon').css({
+                                'background': '#ABABAB',
+                                'border-radius': '5px'
+                            })
+                            console.log(aa);
+                        }
+                        //删除数据路由
+                        $('.list-con').click(function (e) {
+                            var tarid = e.target.getAttribute('data-id');
+                            var typetxt = e.target.getAttribute('data-type');
+                            if(typetxt=='del'){
+                                $.post('/bokecon/dellist', {
+                                id: tarid
+                            }, function (dd) {
+                                alert(dd);
+                                if(dd) {
+                                    $.get("/bokecon/bokeshow", function (all) {
+                                            console.log(all);
+                                            var html = template("deltmpl", {
+                                                dd:all
+                                            })
+                                            $(".list-con").html(html);
+                                    })
+                                }
+                            })
+                            }
+                        })
+                        // 修改
+                        $('.list-con').click(function (e) {
+                            var tarid = e.target.getAttribute('data-id');
+                            var typetxt = e.target.getAttribute('data-type');
+                            if(typetxt=='xiugai'){
+                                location.href='./xiugai.html?id='+tarid;
+                            }
+                            //
+                          
+                        })
+                    })
+        </script>
+</body>
+
+</html>

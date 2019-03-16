@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人博客</title>
+    <!-- 填入bootstrap样式 -->
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
+    <!-- 自己的样式 -->
+    <link rel="stylesheet" href="dist/css/core.min.css">
+    <link rel="stylesheet" href="dist/css/xiangxi.css">
+    <style>
+        .showTitle {
+            text-align: center;
+        }
+
+        .tmargin {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-sm-9 xx-right-con">
+
+            </div>
+            <div class="col-sm-3" id="sidebar">
+                <div class="meiri">
+                    <img src="./dist/images/meiriyiyu.jpg" alt="">
+                    <div class="meiri-con">
+                          “下雪了你为什么不带帽子？” 
+                          “因为啊，想和你一路白头啊～”
+                    </div>
+                  </div>
+                  <ul class="list-group" id="typeNum">
+                      <li class="list-group-item">
+                          <span class="badge">14</span>
+                          Cras justo odio
+                      </li>
+                      <li class="list-group-item">
+                          <span class="badge">14</span>
+                          Cras justo odio
+                      </li>
+                      <li class="list-group-item">
+                          <span class="badge">14</span>
+                          Cras justo odio
+                      </li>
+                      <li class="list-group-item">
+                          <span class="badge">14</span>
+                          Cras justo odio
+                      </li>
+                  </ul>
+            </div>
+        </div>
+        <!-- 引入jq -->
+        <!-- <script src="lib/jquery/dist/jquery.min.js"></script> -->
+
+        <!--wangEditor是一款基于jquery框架开发的插件-->
+        <script src="http://cdn.bootcss.com/wangeditor/2.1.20/js/lib/jquery-2.2.1.js"></script>
+        <script src="dist/js/leftmenu.min.js"></script>
+        <script src="lib/template-web.js"></script>
+        <script type="text/html" id="tmpl">
+           
+           
+                <h2 class="showTitle">
+                    {{dd.tbtitle}}
+                </h2>
+           
+
+            <div class="row">
+                <div class="col-sm-4">作者：{{dd.tbauthor}}</div>
+                <div class="col-sm-4">来源：{{dd.tbsource}}</div>
+                <div class="col-sm-4">发布时间：{{dd.ctime}}</div>
+            </div>
+           
+                <div>
+                    {{@dd.tbcontent}}
+                </div>
+           
+           
+        </script>
+        <script>
+            var id=location.href.split('=')[1];
+            $.get("/bokecon/content.html?id="+id, function (data) {
+                console.log(data);
+                var html = template("tmpl", {
+                    dd: data
+                })
+                $(".xx-right-con").html(html);
+            })
+        </script>
+
+
+
+</body>
+
+</html>
