@@ -233,5 +233,4 @@ async function mergeFiles(srcDir, targetDir, newFileName, size) {
     console.log("Merge Success!");
   });
 }
-// gittest
 module.exports = router;
